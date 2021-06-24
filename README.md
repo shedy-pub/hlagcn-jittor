@@ -10,12 +10,12 @@ This repository contains a <a href="https://github.com/Jittor/Jittor" target="_b
 
 ## Contents
 
-  * [Requirements](#Requirements)
-  * [Install](#Install)
-  * [Dataset](#Dataset)
-  * [Training](#Training)
-  * [Testing](#Testing)
-  * [Citation](#Citation)
+   * [Requirements](#Requirements)
+   * [Install](#Install)
+   * [Dataset](#Dataset)
+   * [Training](#Training)
+   * [Testing](#Testing)
+   * [Citation](#Citation)
 
 ### Requirements
 
@@ -57,7 +57,7 @@ This repository contains a <a href="https://github.com/Jittor/Jittor" target="_b
 
   ```
   path_to_AVAdataset
-  ├── aesthetics_image_list
+  ├──aesthetics_image_list
   ├──images
   ├──AVA.txt
   ├──trian.txt
@@ -76,8 +76,8 @@ This repository contains a <a href="https://github.com/Jittor/Jittor" target="_b
 
 
 ### Training
-
-Traning scripts for two datasets can be found in  `scripts/`. The `dataroot` argument should be modified to `path_to_<dataset_name>`. Run the follwing command for training:
+  
+  Traning scripts for two datasets can be found in  `scripts/`. The `dataroot` argument should be modified to `path_to_<dataset_name>`. Run the follwing command for training:
 
   ```
   # Training on AVA
@@ -91,7 +91,7 @@ Traning scripts for two datasets can be found in  `scripts/`. The `dataroot` arg
 
 ### Testing
 
-Testing model by runing the scripts or the follwing command:
+  Testing model by runing the scripts or the follwing command:
 
   ```
   python -m utils_jittor.eval \
@@ -102,7 +102,7 @@ Testing model by runing the scripts or the follwing command:
 
 ### Citation
 
-If you found this code useful please cite our work as:
+  If you found this code useful please cite our work as:
 
   ```
   @InProceedings{She_2021_CVPR,
