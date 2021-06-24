@@ -65,7 +65,7 @@ path_to_AVAdataset
 ```
 
 - AADB dataset
-  - Download the AADB dataset](https://www.ics.uci.edu/~skong2/aesthetics.html) into `path_to_AADB/`.
+  - Download the [AADB dataset](https://www.ics.uci.edu/~skong2/aesthetics.html) into `path_to_AADB/`.
   - The directory structure should be like:
 
 ```
