@@ -2,7 +2,7 @@
 
 # Hierarchical Layout-Aware Graph Convolutional Network for Unified Aesthetics Assessment
 
-[[Paper](https://openaccess.thecvf.com/content/CVPR2021/papers/She_Hierarchical_Layout-Aware_Graph_Convolutional_Network_for_Unified_Aesthetics_Assessment_CVPR_2021_paper.pdf)]  [[Supplementary Material](https://openaccess.thecvf.com/content/CVPR2021/supplemental/She_Hierarchical_Layout-Aware_Graph_CVPR_2021_supplemental.pdf)]  [[Jittor Code]()]  [Pytorch Code](coming soon)]
+[[Paper](https://openaccess.thecvf.com/content/CVPR2021/papers/She_Hierarchical_Layout-Aware_Graph_Convolutional_Network_for_Unified_Aesthetics_Assessment_CVPR_2021_paper.pdf)]  [[Supplementary Material](https://openaccess.thecvf.com/content/CVPR2021/supplemental/She_Hierarchical_Layout-Aware_Graph_CVPR_2021_supplemental.pdf)]  [[Jittor Code](https://github.com/shedy-pub/hlagcn-jittor)]  [Pytorch Code(coming soon)]
 
 This repository contains a <a href="https://github.com/Jittor/Jittor" target="_blank">Jittor</a> implementation of the paper "Hierarchical Layout-Aware Graph Convolutional Network for Unified Aesthetics Assessment" (CVPR 2021)
 
