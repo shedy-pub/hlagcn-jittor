@@ -92,7 +92,7 @@ def main_worker(args):
         [img_paths_train, img_rates_train, img_cls_train, img_ratios_train, \
                img_paths_test, img_rates_test, img_cls_test, img_ratios_test, \
                img_paths_val, img_rates_val, img_cls_val, img_ratios_val] = preload_img(params_aadb, args.dataroot)
-        data_train = [img_paths_test, img_rates_test, img_cls_test,img_ratios_test]
+        data_train = [img_paths_train, img_rates_train, img_cls_train, img_ratios_train]
         data_val = [img_paths_val, img_rates_val, img_cls_val,img_ratios_val]
         data_test = [img_paths_test, img_rates_test, img_cls_test,img_ratios_test]
         args.bins = 5
