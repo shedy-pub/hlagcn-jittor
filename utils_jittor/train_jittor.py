@@ -40,7 +40,6 @@ def main():
     main_worker(args)
 
 def main_worker(args):
-
     normalize = transforms.ImageNormalize(mean=[0.485, 0.456, 0.406],std=[0.229, 0.224, 0.225])
     train_transform = transforms.Compose([
         transforms.Resize((320, 320)),
@@ -88,7 +87,6 @@ def main_worker(args):
             print('+' * 30)
             _, train_idx, _, _ = train_test_split(x, y, test_size = 0.2)
             data_train = [list(map(list,zip(*trainval_info)))[i] for i in train_idx]
-    
     # load AADB dataset
     elif args.dataset == 'aadb':
         [img_paths_train, img_rates_train, img_cls_train, img_ratios_train, \
@@ -110,7 +108,7 @@ def main_worker(args):
 
     val_set = Dataset(data_val, transform=val_transform)
     test_set = Dataset(data_test, transform=val_transform)
-    params_val_test = {'batch_size': args.batch_size//2,
+    params_val_test = {'batch_size': args.batch_size,
         'shuffle': False,
         'num_workers': args.workers,
         'collate_batch': collate_wrapper,
@@ -150,7 +148,6 @@ def main_worker(args):
             # evaluate on validation set
             if epoch % args.val_freq == 0:
                 val_loss, val_acc_aes = val_test_process(val_loader, model, criterions, args)
-                
             # saving model
             if epoch % args.period == 0:
                 filename = os.path.join(args.weight_dir, 'checkpoint_epoch_{0:03d}.pth.tar'.format(epoch))
@@ -184,7 +181,7 @@ def train(train_loader, model, criterions, optimizer, epoch, args):
             y_pred_aes = model(input)
         criterion_aes_train = criterions[0]
         loss = criterion_aes_train(y_pred_aes, target)
-        losses.update(loss.item(), input.size(0))
+        losses.update(loss.item(), input.size(0)) 
         optimizer.zero_grad()
         optimizer.step(loss)
 
@@ -192,11 +189,19 @@ def train(train_loader, model, criterions, optimizer, epoch, args):
         time_end = time.time()
         if jittor.rank == 0 and i % args.print_freq == 0:
             progress.display(i)
+    jittor.sync_all()
     return losses.avg
 
 @jittor.single_process_scope()
 def val_test_process(eval_loader, model, criterions, args):
     losses_aes, accs_aes = AverageMeter('Loss', ':.3f'), AverageMeter('Acc', ':.2f')
+
+    def async_update(target, prediction, loss_aes, acc_aes, size):
+        labels_hist.append(target)
+        scores_hist.append(prediction)
+        losses_aes.update(loss_aes, size)
+        accs_aes.update(acc_aes, size)
+
     model.eval()
     with jittor.no_grad():
         scores_hist, labels_hist = [], []
@@ -211,12 +216,11 @@ def val_test_process(eval_loader, model, criterions, args):
             else:
                 y_pred_aes = model(input)
             criterion_aes_val = criterions[1]
-            labels_hist.append(target.numpy())
-            scores_hist.append(prediction.numpy())
             loss_aes = criterion_aes_val(prediction, target)
             acc_aes = binary_accuracy(prediction, target, args.bins)
-            losses_aes.update(loss_aes.item(), input.size(0))
-            accs_aes.update(acc_aes.item(), input.size(0))
+            jittor.fetch(target, prediction, loss_aes, acc_aes, input.size(0), async_update)
+            
+    jittor.sync_all()
     metrics = cal_metrics(scores_hist, labels_hist, args.bins)
     print(f' --> Validation:')
     print(f'     - MSE {metrics[0]:.4f} | SRCC {metrics[1]:.4f} | LCC {metrics[2]:.4f} ')

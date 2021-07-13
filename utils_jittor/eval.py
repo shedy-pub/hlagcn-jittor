@@ -47,8 +47,9 @@ def main_worker(args):
         'collate_batch': collate_wrapper,}
     test_loader = test_set.set_attrs(**params_val_test)
     criterions = [_, emd_loss(dist_r=1) ]
-    model, _, _ = load_checkpoint(args.eval_model, model, [], strict=True)    
+    model, _, _ = load_checkpoint(args.eval_model, model, [], strict=True)   
     val_test_process(test_loader, model, criterions, args)
+
 
 if __name__ == '__main__':
     main()
